@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+
+<head>
+    <title>Listicle Generator</title>
+    <meta charset="utf-8">
+    <!--Sets character encoding-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Forces Edge Compatibility -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Sets initial view -->
+    <meta name="theme-color" content="#ffffff" />
+    <!-- Themen colour on mobiles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <!-- AngularJS from CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- JQuery from CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.16/clipboard.min.js"></script>
+    <!--  Clipboard Functionality-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Default Bootstrap Theme-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Same theme, but minimized-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Symbols used in HTML Body -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css" rel="stylesheet">
+    <!-- CSS that gives it the Google Look (deprecated)-->
+    <link href='css/styles.css' rel='stylesheet'>
+    <!-- Custom CSS that we're setting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.12.0/bootstrap-social.css" rel="stylesheet">
+    <!-- Icons for Links to Social Media-->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic|Roboto+Slab:400,300' rel='stylesheet' type='text/css'>
+    <!-- Google Font Roboto from CDN -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+    <!-- Google Font Roboto Monospaced from CDN-->
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+    <!-- Favicon-->
+</head>
+
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <a class="navbar-brand" ui-sref="app"><img src="img/xiong40.png" height=42 width=42></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <h1>Listicle Generator</h1>
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="padding-top:1.25em">
+        <div class="body body-row">
+            <div class="col-xs-12 z-depth-1 maintext">
+                <form class="form-horizontal" role="form" name="listicleForm" novalidate>
+                    <div class="form-group">
+                        <label for="productType" class="col-sm-2 control-label">Produkt Singular</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="productType" name="productType" autocomplete="off"> </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productTypePlural" class="col-sm-2 control-label">Produkt Plural</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="productTypePlural" name="productTypePlural" autocomplete="off"> </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productTypeThis" class="col-sm-2 control-label">Dieser/Diese/Dieses?</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="productTypeThis" name="productTypeThis"> </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleLead" class="col-sm-2 control-label">Lead Artikel</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="articleLead" name="articleLead" ng-model="article.lead" autocomplete="off"> </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleIntro" class="col-sm-2 control-label">Intro Text</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="articleIntro" name="articleIntro" ng-model="article.intro" autocomplete="off"> </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Produktnummern" class="col-sm-2 control-label">Produktlinks<br><small>Ein Link pro Zeile</small></label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="productNumbers" name="productNumbers" rows="3" ng-model="product.numbers"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="uselessSentences" class="col-sm-2 control-label">Nutzloser Fülltext<br><small>Ein Satz pro Zeile</small></label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="uselessSentences" name="uselessSentences" rows="3" ng-model="useless.sentences"></textarea>
+                            <span class="pull-right" style="padding-top:.75em">
+                                     <button id="processbtn" class="btn waves-effect waves-light" type="submit" name="action">Black Magic!</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="listicleOutput" class="col-sm-2 control-label">Listicle</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="listicleOutput" name="listicleOutput" rows="3" ng-model="listicle.output"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        </div>
+<footer class="row-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-2 col-xs-push-10">
+                    <small><p><ul><li>Black Magic Listicle Generator</li> 
+                        <li>Version: 1.0</li>
+                        <li>Developer: Dominik Bärlocher </li>
+                        <li>I am aware that this is profoundly stupid.</li></p>
+                        </small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var curids = []
+            console.log("Ready.")
+            $('#processbtn').on('click', function () {
+                var productNumbers = $('#productNumbers').val()
+                var uselessSentences = $('#uselessSentences').val()
+                var productType = $('#productType').val()
+                var productTypePlural = $('#productTypePlural').val()
+                var currentYear = (new Date).getFullYear();
+                var productTypeThis = $('#productTypeThis').val() 
+                var articleLead = $('#articleLead').val()
+                var articleIntro = $('#articleIntro').val()
+                var zwitiPrefix = "## ";
+                var productPrefix = "[[product: ";
+                var productSuffix = "]]";
+                var doubleBreak = "\r\r";
+                var searchURL = "https://www.google.ch/search?q=" + productType + "&tbs=sur:fc,isz:l,imgo:1&tbm=isch"
+
+                console.log(productNumbers)
+
+                var urls = productNumbers.split(/\s+/)
+                console.log(urls)
+                var mv = $.map(urls, function (val, i) {
+                    if (val != "") {
+                        var ju = val.split('?')[0]
+                        pat = /[-|\/](\d{5,8})$/
+                        rv = pat.exec(ju)
+                        if (rv !== null) {
+                            console.log("Found id: " + rv[1])
+                            return rv[1]
+                        } else {
+                            console.log(" Not matching html ")
+                        }
+                    }
+                })
+
+                var lines = $('#uselessSentences').val().split(/\n/);
+                var texts = [];
+                for (var i = 0; i < lines.length; i++) {
+                    // only push this line if it contains a non whitespace character.
+                    if (/\S/.test(lines[i])) {
+                        texts.push($.trim(lines[i]));
+                    }
+                }
+
+
+
+                console.log("texts.length is " + texts.length)
+                console.log("mv is " + mv)
+
+                $.each(mv, function (index, value) {
+                    var articleZwiti = productTypeThis + " " + productType
+                    $('#listicleOutput').append(zwitiPrefix + (index + 1) + ": " + articleZwiti + doubleBreak + productPrefix + value + productSuffix + doubleBreak + texts[index] + doubleBreak);
+                })
+                
+                var randomIndex = Math.floor(Math.random() * texts.length)+1;
+
+                var articleTitle = "Die **besten " + texts.length + " " + productTypePlural + "**. Nummer " + randomIndex + " wird dich erstaunen";
+                            
+                
+                $('#listicleOutput').prepend(articleTitle + doubleBreak + articleLead + doubleBreak + articleIntro + doubleBreak)
+
+                $("#listicleOutput").select();
+                document.execCommand('copy');
+
+                window.open(searchURL, '_blank')
+           })
+        })
+    </script>
+</body>
+
+</html>
